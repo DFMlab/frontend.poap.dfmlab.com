@@ -4,9 +4,9 @@ import axios from "axios";
 // initialize IPFS
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
-export default minterContract = async function (minterContract,
+const mintPoap = async function (minterContract,
     performActions,
-    { name, description, image, ownerAddress, attributes }) {
+    name, description, image, attributes) {
 
     await performActions(async (kit) => {
 
@@ -15,8 +15,7 @@ export default minterContract = async function (minterContract,
         const data = JSON.stringify({
             name,
             description,
-            image: image,
-            owner: defaultAccount,
+            image,
             owner: defaultAccount,
             attributes,
         });
@@ -28,7 +27,7 @@ export default minterContract = async function (minterContract,
             const url = `https://ipfs.infura.io/ipfs/${added.path}`;
 
             const transaction = await minterContract.methods
-                .safeMint(ownerAddress, image)
+                .safeMint(defaultAccount, image)
                 .send({ from: defaultAccount });
 
             return transaction;
@@ -38,3 +37,5 @@ export default minterContract = async function (minterContract,
         }
     })
 }
+
+export default mintPoap

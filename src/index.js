@@ -1,13 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.css';
-import './index.css';
+import {
+    ContractKitProvider,
+    Alfajores,
+    NetworkNames,
+} from '@celo-tools/use-contractkit';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import "@celo-tools/use-contractkit/lib/styles.css";
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(
+    <React.StrictMode>
+        <ContractKitProvider
+            networks={[Alfajores]}
+            network={{
+                name: NetworkNames.Alfajores,
+                rpcUrl: 'https://alfajores-forno.celo-testnet.org',
+                graphQl: 'https://alfajores-blockscout.celo-testnet.org/graphiql',
+        explorer: 'https://alfajores-blockscout.celo-testnet.org',
+        chainId: 44787,
+      }}
+      dapp={{
+        name: 'DFMlab POAP.',
+        description: 'A POAP minter dApp from DFMlab.',
+        url: 'https://poap.dfmlab.com',
+      }}
+    >
+      <App />
+    </ContractKitProvider>
+  </React.StrictMode>,
+  document.getElementById('root'),
+);

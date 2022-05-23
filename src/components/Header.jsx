@@ -1,25 +1,23 @@
-import React from 'react';
-import { useContractKit } from "@celo-tools/use-contractkit";
+import React from "react";
 
 const Header = () => {
+  return (
+    <div className="header-wrapper py-4 px-5 shadow-xss">
+        <div className="row">
+          <div className="col-lg-12 navbar pt-0 pb-0">
+            <a href="/">
+              <h1 className="fredoka-font ls-3 fw-700 text-current font-xxl">
+                DFMlab{" "}
+                <span className="d-block font-xsssss ls-1 text-grey-500 open-font ">
+                  POAP Minter{" "}
+                </span>
+              </h1>
+            </a>
+            <button className="btn btn-primary">Connect </button>
+          </div>
+      </div>
+    </div>
+  );
+};
 
-    const { connect, address } = useContractKit();
-
-    function ConnectButton() {
-        return (
-            address ? 
-            (<button onClick={connect} className="btn btn-primary">connect</button>) :
-            (<button className="btn btn-primary">disconnect</button>)
-        )
-    }
-
-    return (
-        <nav className="navbar navbar-light bg-light">
-            <a href="/" className="navbar-brand">Navbar</a>
-            {   ConnectButton()   }
-        </nav>
-    );
-}
-
-
-export default Header
+export default Header;

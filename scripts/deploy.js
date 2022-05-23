@@ -13,35 +13,35 @@ async function main() {
   // manually to make sure everything is compiled
   // await hre.run('compile');
 
-  const Poap = await hre.ethers.getContractFactory("Poap");
+  const Poap = await hre.ethers.getContractFactory("POAP");
   const poap = await Poap.deploy();
 
   await poap.deployed();
 
   console.log("poap deployed to:", poap.address);
-  // storeContractData(poap)
+  storeContractData(poap)
 }
 
-// function storeContractData(contract) {
-//   const fs = require("fs");
-//   const contractsDir = __dirname + "/../src/contracts";
+function storeContractData(contract) {
+  const fs = require("fs");
+  const contractsDir = __dirname + "/../src/contracts";
 
-//   if (!fs.existsSync(contractsDir)) {
-//     fs.mkdirSync(contractsDir);
-//   }
+  if (!fs.existsSync(contractsDir)) {
+    fs.mkdirSync(contractsDir);
+  }
 
-//   fs.writeFileSync(
-//     contractsDir + "/poap-address.json",
-//     JSON.stringify({ MyNFT: contract.address }, undefined, 2)
-//   );
+  fs.writeFileSync(
+    contractsDir + "/poap-address.json",
+    JSON.stringify({ MyNFT: contract.address }, undefined, 2)
+  );
 
-//   const DFMLabPOAPArtifact = artifacts.readArtifactSync("POAP");
+  const DFMLabPOAPArtifact = artifacts.readArtifactSync("POAP");
 
-//   fs.writeFileSync(
-//     contractsDir + "/poap.json",
-//     JSON.stringify(DFMLabPOAPArtifact, null, 2)
-//   );
-// }
+  fs.writeFileSync(
+    contractsDir + "/poap.json",
+    JSON.stringify(DFMLabPOAPArtifact, null, 2)
+  );
+}
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
