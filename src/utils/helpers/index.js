@@ -1,4 +1,4 @@
-import fetchPoap from './helpers/fetchPoap'
-import formatBigNumber from './helpers/formatBigNumber'
+import fetchPoaps from './fetchPoaps'
+import formatBigNumber from './formatBigNumber'
 
-export { fetchPoap, formatBigNumber}
+export { fetchPoaps, formatBigNumber}

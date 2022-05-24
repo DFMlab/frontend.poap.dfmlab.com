@@ -1,3 +1,9 @@
 import poapReducer from './poap'
 
-export { poapReducer }
+import { combineReducers } from 'redux'
+
+const reducers = combineReducers({
+    poaps:poapReducer
+})
+
+export default reducers

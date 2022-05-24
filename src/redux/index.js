@@ -1,6 +1,5 @@
-import { configureStore  } from "@redux/toolkit"
-import { poapReducer } from './reducers/'
+import * as actions from "./actions";
+import store from "./store";
+import reducers from "./reducers/"
 
-const poapStore = configureStore(poapReducer);
-
-export { poapStore }
+export { store, actions, reducers }
