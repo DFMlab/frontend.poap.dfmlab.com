@@ -1,3 +1,5 @@
 import SearchWidget from './SearchWidget/'
 
-export default SearchWidget
+import PaginationWidget from "./PaginationWidget/"
+
+export { SearchWidget, PaginationWidget }

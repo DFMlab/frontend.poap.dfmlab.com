@@ -12,11 +12,16 @@ const SearchWidget = () => {
   const searchPoaps = useCallback((e) => {
     e.preventDefault()
     const { fetchPoaps } = helpers;
-    fetchPoaps({keyword:keyword}).then(async (data) => {
+    fetchPoaps({keyword:keyword}).then(async (result) => {
       dispatch({
         type: actions.INITIALIZE_POAP,
         payload: {
-          poaps: data.results,
+          data: result.results,
+          page: result?.results?.length > 0 ? 1 : 0,
+          next: result.next ? true : false,
+          prev: result.previous ? true : false,
+          total: result.count,
+          keyword:keyword      
         },
       });
     });

@@ -9,13 +9,18 @@ const fetchPoaps = async (params={}) => {
 
   let url = `${BACKEND_URL}poaps/`
 
-  if (page) {
+  if (page && !keyword) {
     url = `${url}?page=${page}`
   }
 
-  if (keyword) {
+  if (!page && keyword) {
     url = `${url}?search=${keyword}`
   }
+
+  if (page && keyword) {
+    url = `${url}?search=${keyword}&page=${page}`
+  }
+
 
   const response = await fetch(url, {
     method: "GET",
