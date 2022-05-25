@@ -6,7 +6,7 @@ var hdate = require("human-date");
 
 function POAPCard({ data }) {
   return (
-    <div className="col-xl-3 col-xxxl-3 col-lg-6 col-md-6 col-sm-6 mb-4">
+    <div className="col-xl-3 col-xxxl-3 col-lg-6 col-md-6 col-sm-12 mb-4">
       <div className="card w-100 p-0 shadow-xss border-0 rounded-lg overflow-hidden mr-1">
         <div className="card-image w-100 mb-3">
           <a
@@ -30,17 +30,22 @@ function POAPCard({ data }) {
               ? data?.description
               : "lorem lorem ipsum ipsum dolor dolor lorem lorem ipsum ipsum dolor dolor lorem lorem ipsum ipsum dolor dolor lorem lorem ipsum ipsum dolor dolor"}
           </p>
-          <span className="font-xsssss fw-700 px-2 mt-3 lh-32 text-uppercase rounded-lg ls-2 alert-primary d-inline-block text-primary mr-1">
+          <span className="font-xsssss fw-700 px-2 mt-3 lh-32 text-uppercase rounded-lg ls-2 alert-light border d-inline-block text-primary mr-1">
             {EVENT_TYPE[data.event_type]}
           </span>
 
-          <span className="font-xsssss fw-700 px-2 mt-3 lh-32 text-uppercase rounded-lg ls-2 alert-primary d-inline-block text-primary mr-1">
+          <span className="font-xsssss fw-700 px-2 mt-3 lh-32 text-uppercase rounded-lg ls-2 alert-light border d-inline-block text-primary mr-1">
             {hdate.prettyPrint(data?.start_time)}
           </span>
 
-          <span className="font-xsssss fw-700 px-2 mt-3 lh-32 text-uppercase rounded-lg ls-2 alert-primary d-inline-block text-primary mr-1">
+          <span className="font-xsssss fw-700 px-2 mt-3 lh-32 text-uppercase rounded-lg ls-2 alert-light border d-inline-block text-primary mr-1">
             {data?.organizer}
           </span>
+
+          <div>
+          <button className="mt-4 rounded-xl text-white bg-current w125 p-2 lh-32 font-xsss text-center fw-500 d-inline-block border-0">Mint</button>
+          </div>
+
         </div>
       </div>
     </div>
