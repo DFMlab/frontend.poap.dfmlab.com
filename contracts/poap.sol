@@ -16,18 +16,36 @@ contract POAP is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     uint256 public _endTime;
 
+    mapping(address => bool) private _whitelisteds;
+
+    enum WhitelistStatus {
+        ENABLED,
+        DISABLED
+    }
+
+    WhitelistStatus private _whitelistStatus = WhitelistStatus.DISABLED;
+
     // maximum allowed mint
     uint256 public _maxMint;
 
     string public _metaData;
-    
+
     enum MintStatus {
-        INACTIVE,  
+        INACTIVE,
         ACTIVE
     }
 
     MintStatus public mintStatus = MintStatus.ACTIVE;
-    constructor(address owner, uint256 startTime, uint256 endTime, uint256 maxMint, string memory metaData, string memory name, string memory symbol) ERC721(name, symbol) {
+
+    constructor(
+        address owner,
+        uint256 startTime,
+        uint256 endTime,
+        uint256 maxMint,
+        string memory metaData,
+        string memory name,
+        string memory symbol
+    ) ERC721(name, symbol) {
         setEndTime(endTime);
         setStartTime(startTime);
         setMetaData(metaData);
@@ -44,13 +62,36 @@ contract POAP is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         _;
     }
 
+    function enableWhitelist() external onlyOwner {
+        require(_whitelistStatus == WhitelistStatus.DISABLED);
+
+        _whitelistStatus = WhitelistStatus.ENABLED;
+    }
+
+    function disableWhitelist() external onlyOwner {
+        require(_whitelistStatus == WhitelistStatus.ENABLED);
+
+        _whitelistStatus = WhitelistStatus.DISABLED;
+    }
+
+    function addToWhiteList() external onlyOwner {
+        _whitelisteds[msg.sender] = true;
+    }
+
+    function removeFromWhiteList() external onlyOwner {
+        _whitelisteds[msg.sender] = false;
+    }
+
     function setStartTime(uint256 startTime) public onlyOwner {
         require(_endTime > startTime, "MINT_START_TIME_INVALID");
         _startTime = startTime;
     }
 
     function setEndTime(uint256 endTime) public onlyOwner {
-        require(endTime >= block.timestamp && endTime > _startTime, "MINT_END_TIME_INVALID");
+        require(
+            endTime >= block.timestamp && endTime > _startTime,
+            "MINT_END_TIME_INVALID"
+        );
         _endTime = endTime;
     }
 
@@ -71,6 +112,9 @@ contract POAP is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     function safeMint(string memory uri) external canMint {
+        if (_whitelistStatus == WhitelistStatus.ENABLED) {
+            require(_whitelisteds[msg.sender], "WALLET_NOT_WHITELISTED");
+        }
         uint256 poapId = _poapIdCounter.current();
         _poapIdCounter.increment();
         _safeMint(msg.sender, poapId);
@@ -110,5 +154,4 @@ contract POAP is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     {
         return super.supportsInterface(interfaceId);
     }
-
 }
