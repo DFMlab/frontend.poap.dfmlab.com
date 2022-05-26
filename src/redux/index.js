@@ -1,4 +1,4 @@
-import * as actions from "./actions";
+import * as actions from "./actions/";
 import store from "./store";
 import reducers from "./reducers/"
 

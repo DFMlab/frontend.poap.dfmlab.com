@@ -15,54 +15,20 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const fetchPoapsOnLoad = useCallback(() => {
-    fetchPoaps().then(async (result) => {
-      dispatch({
-        type: actions.INITIALIZE_POAP,
-        payload: {
-          data: result?.results,
-          page: result?.results?.length > 0 ? 1 : 0,
-          next: result.next ? true : false,
-          prev: result.previous ? true : false,
-          total: result.count,
-          keyword: null,
-        },
-      });
-    });
+    fetchPoaps({ dispatch, action: actions.PoapAdded });
   }, []);
 
   const nextPage = useCallback(() => {
     const newPage = page + 1;
     console.log(newPage);
-    fetchPoaps({ keyword, page: newPage }).then(async (result) => {
-      dispatch({
-        type: actions.INITIALIZE_POAP,
-        payload: {
-          data: result?.results,
-          page: newPage,
-          next: result.next ? true : false,
-          prev: result.previous ? true : false,
-          total: result.count,
-          keyword: keyword,
-        },
-      });
-    });
+
+    fetchPoaps({ dispatch, action: actions.PoapAdded, page: newPage, keyword });
   }, [keyword, page]);
 
   const prevPage = useCallback(() => {
     const newPage = page - 1;
-    fetchPoaps({ keyword, page: newPage }).then(async (result) => {
-      dispatch({
-        type: actions.INITIALIZE_POAP,
-        payload: {
-          data: result?.results,
-          page: newPage,
-          next: result.next ? true : false,
-          prev: result.previous ? true : false,
-          total: result.count,
-          keyword: keyword,
-        },
-      });
-    });
+    fetchPoaps({ dispatch, action: actions.PoapAdded, page: newPage, keyword });
+
   }, [keyword, page]);
 
   useEffect(() => {
@@ -116,8 +82,8 @@ const Home = () => {
     <React.Fragment>
       <SearchWidget />
       {data?.length > 0 ? (
-        <h2 class="ml-5 fw-400 font-lg">
-          Events <b>POAP</b> <i class="feather-edit text-grey-500 font-xs"></i>
+        <h2 className="ml-5 fw-400 font-lg">
+          Events <b>POAP</b> <i className="feather-edit text-grey-500 font-xs"></i>
         </h2>
       ) : (
         ""

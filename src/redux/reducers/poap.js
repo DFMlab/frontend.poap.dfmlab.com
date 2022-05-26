@@ -1,4 +1,4 @@
-import * as actions from "../actions.js"
+import * as actions from "../actions/constants.js"
 
 export default function poapReducer(state = {}, { type, payload }) {
     switch (type) {

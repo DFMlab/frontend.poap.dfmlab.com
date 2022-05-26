@@ -1,6 +1,6 @@
 import { BACKEND_URL } from '../constants'
 
-const fetchPoaps = async (params={}) => {
+const fetchPoapsHelper = async (params={}) => {
 
   const { keyword, page} = params
 
@@ -32,5 +32,22 @@ const fetchPoaps = async (params={}) => {
 
   return data
 }
+
+
+const fetchPoaps = (args) => {
+  const {keyword, page, dispatch, action} = args
+  fetchPoapsHelper({ keyword, page }).then(async (result) => {
+    dispatch(
+      action({
+        data: result?.results,
+        page: page ? page : 0,
+        next: result.next ? true : false,
+        prev: result.previous ? true : false,
+        total: result.count,
+        keyword: keyword ? keyword : null,
+      })
+    );
+  });
+};
 
 export default fetchPoaps
