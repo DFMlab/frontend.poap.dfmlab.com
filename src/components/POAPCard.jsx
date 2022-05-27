@@ -1,28 +1,47 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 
 import { EVENT_TYPE } from "./../utils/constants";
 
-import { usePOAPContract } from './../hooks'
+import { usePOAPContract } from "./../hooks";
 
-import { mintPOAP } from './../utils/helpers'
+import { mintPOAP, fetchPOAPBalance } from "./../utils/helpers";
 
-import { useContractKit } from '@celo-tools/use-contractkit';
+import { useContractKit } from "@celo-tools/use-contractkit";
 
 var hdate = require("human-date");
 
 function POAPCard({ data }) {
+  const { address, connect, performActions } = useContractKit();
 
-  const { address, connect } = useContractKit()
+  const [ minted, setMinted ] = useState(false);
 
-  const poapContract = usePOAPContract(data?.contract_address)
+  const poapContract = usePOAPContract(
+    address
+  );
+
+  const getPOAPBalance = useCallback(() => {
+    const _getPOAPBalance = async () => {
+      if (poapContract && address) {
+        const balance = await fetchPOAPBalance(poapContract, address);
+        setMinted(balance > 0 ? true : false);
+      }
+    };
+
+    _getPOAPBalance();
+  },  [poapContract, address]);
+
+  useEffect(() => {
+    getPOAPBalance();
+  },  [poapContract, address]);
 
   const minter = useCallback(() => {
     const mintPOAPHelper = async () => {
-      if(!address) await connect()
-      await mintPOAP(poapContract, data?.uri)}
-      mintPOAPHelper()
-    }, [poapContract])
-  
+      if (!address) await connect();
+      await mintPOAP(performActions, poapContract, "data");
+    };
+    mintPOAPHelper();
+  }, [poapContract]);
+
   return (
     <div className="col-xl-3 col-xxxl-3 col-lg-6 col-md-6 col-sm-12 mb-4">
       <div className="card w-100 p-0 shadow-xss border-0 rounded-lg overflow-hidden mr-1">
@@ -61,9 +80,19 @@ function POAPCard({ data }) {
           </span>
 
           <div>
-          <button onClick={ () => minter() } className="mt-4 rounded-xl text-white bg-current w125 p-2 lh-32 font-xsss text-center fw-500 d-inline-block border-0">Mint</button>
+            { minted ? (
+              <button className="mt-4 rounded-xl text-white bg-current w125 p-2 lh-32 font-xsss text-center fw-500 d-inline-block disabled border-0">
+                Minted
+              </button>
+            ) : (
+              <button
+                onClick={() => minter()}
+                className="mt-4 rounded-xl text-white bg-current w125 p-2 lh-32 font-xsss text-center fw-500 d-inline-block border-0"
+              >
+                Mint
+              </button>
+            )}
           </div>
-
         </div>
       </div>
     </div>
