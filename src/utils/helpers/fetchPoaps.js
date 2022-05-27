@@ -1,8 +1,8 @@
 import { BACKEND_URL } from '../constants'
 
-const fetchPoapsHelper = async (params={}) => {
+const fetchPoapsHelper = async (params = {}) => {
 
-  const { keyword, page} = params
+  const { keyword, page } = params
 
 
   console.log(params)
@@ -21,21 +21,26 @@ const fetchPoapsHelper = async (params={}) => {
     url = `${url}?search=${keyword}&page=${page}`
   }
 
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    const data = await response.json()
 
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-  const data = await response.json()
+    return data
+  } catch {
+    return {}
+  }
 
-  return data
+
 }
 
 
 const fetchPoaps = (args) => {
-  const {keyword, page, dispatch, action} = args
+  const { keyword, page, dispatch, action } = args
   fetchPoapsHelper({ keyword, page }).then(async (result) => {
     dispatch(
       action({

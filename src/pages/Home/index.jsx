@@ -4,6 +4,7 @@ import { POAPCard } from "./../../components";
 import { useSelector, useDispatch } from "react-redux";
 import { helpers } from "./../../utils";
 import { actions } from "./../../redux";
+import './home.css'
 
 const { fetchPoaps } = helpers;
 
@@ -28,7 +29,6 @@ const Home = () => {
   const prevPage = useCallback(() => {
     const newPage = page - 1;
     fetchPoaps({ dispatch, action: actions.PoapAdded, page: newPage, keyword });
-
   }, [keyword, page]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Home = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-6 col-md-8 text-center default-page">
-            <div className="card border-0 text-center d-block">
+            <div id="EmptyDataCard" className="card border-0 text-center d-block">
               <img
                 src="https://via.placeholder.com/200x250.png"
                 alt="icon"
@@ -83,7 +83,8 @@ const Home = () => {
       <SearchWidget />
       {data?.length > 0 ? (
         <h2 className="ml-5 fw-400 font-lg">
-          Events <b>POAP</b> <i className="feather-edit text-grey-500 font-xs"></i>
+          Events <b>POAP</b>{" "}
+          <i className="feather-edit text-grey-500 font-xs"></i>
         </h2>
       ) : (
         ""

@@ -1,4 +1,5 @@
 import fetchPoaps from './fetchPoaps'
 import formatBigNumber from './formatBigNumber'
+import mintPOAP from './mintPOAP'
 
-export { fetchPoaps, formatBigNumber}
+export { fetchPoaps, formatBigNumber, mintPOAP}
